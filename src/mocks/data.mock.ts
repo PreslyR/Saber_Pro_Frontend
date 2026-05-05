@@ -31,16 +31,7 @@ export const SUBJECTS: Subject[] = [
     progressColor: 'bg-emerald-500',
     totalQuestions: 45,
   },
-  {
-    id: 'ciencias-naturales',
-    name: 'Ciencias Naturales',
-    description: 'Explora conceptos de física, química y biología con enfoque experimental.',
-    iconKey: 'science',
-    accentColor: 'text-orange-600',
-    bgColor: 'bg-orange-50 hover:bg-orange-100',
-    progressColor: 'bg-orange-500',
-    totalQuestions: 50,
-  },
+  
   {
     id: 'competencias-ciudadanas',
     name: 'Competencias Ciudadanas',
@@ -88,12 +79,7 @@ export const MOCK_USER_PROGRESS: UserProgress = {
       correctAnswers: 8,
       lastAttempt: '2026-04-25',
     },
-    'ciencias-naturales': {
-      subjectId: 'ciencias-naturales',
-      completedQuestions: 0,
-      totalQuestions: 50,
-      correctAnswers: 0,
-    },
+    
     'competencias-ciudadanas': {
       subjectId: 'competencias-ciudadanas',
       completedQuestions: 30,

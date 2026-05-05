@@ -115,38 +115,6 @@ export const MOCK_QUESTIONS: QuizQuestion[] = [
       '"Ambiguous" means open to more than one interpretation; not having a single clear meaning.',
   },
 
-  // ── Ciencias Naturales ────────────────────────────────────────────────
-  {
-    id: 'cn-001',
-    subjectId: 'ciencias-naturales',
-    statement:
-      '¿Cuál de las siguientes moléculas es la responsable del transporte de oxígeno en la sangre?',
-    options: [
-      { id: 'A', text: 'Glucosa' },
-      { id: 'B', text: 'Hemoglobina' },
-      { id: 'C', text: 'Insulina' },
-      { id: 'D', text: 'Colesterol' },
-    ],
-    correctOptionId: 'B',
-    explanation:
-      'La hemoglobina es una proteína presente en los glóbulos rojos que se une al oxígeno y lo transporta por el organismo.',
-  },
-  {
-    id: 'cn-002',
-    subjectId: 'ciencias-naturales',
-    statement:
-      'Según la Segunda Ley de Newton, si la masa de un objeto se duplica y la fuerza aplicada permanece constante, la aceleración:',
-    options: [
-      { id: 'A', text: 'Se duplica' },
-      { id: 'B', text: 'Se mantiene igual' },
-      { id: 'C', text: 'Se reduce a la mitad' },
-      { id: 'D', text: 'Se cuadruplica' },
-    ],
-    correctOptionId: 'C',
-    explanation:
-      'F = ma → a = F/m. Si m se duplica y F es constante, a = F/(2m), es decir, la aceleración se reduce a la mitad.',
-  },
-
   // ── Competencias Ciudadanas ───────────────────────────────────────────
   {
     id: 'cc-001',
@@ -163,6 +131,8 @@ export const MOCK_QUESTIONS: QuizQuestion[] = [
     explanation:
       'La revocatoria del mandato es el mecanismo constitucional que permite a los ciudadanos destituir a gobernadores y alcaldes antes de terminar su período.',
   },
+
+ 
 
   // ── Comunicación Escrita ──────────────────────────────────────────────
   {

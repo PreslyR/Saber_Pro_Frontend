@@ -4,7 +4,6 @@ export type SubjectId =
   | 'razonamiento-cuantitativo'
   | 'lectura-critica'
   | 'ingles'
-  | 'ciencias-naturales'
   | 'competencias-ciudadanas'
   | 'comunicacion-escrita';
 
