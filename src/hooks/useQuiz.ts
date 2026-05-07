@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import type { OptionId, QuizAnswerRecord, QuizSession, SubjectId } from '../types';
-import { getQuestionsBySubject } from '../mocks/questions.mock';
+import { fetchQuestionsForSubject } from '../services/questionService';
+
+const QUESTIONS_PER_SESSION = 20;
 
 interface UseQuizReturn {
   session: QuizSession;
@@ -8,30 +10,54 @@ interface UseQuizReturn {
   hasAnswered: boolean;
   isLastQuestion: boolean;
   correctCount: number;
+  isLoading: boolean;
+  error: string | null;
   selectOption: (optionId: OptionId) => void;
   confirmAnswer: () => void;
   nextQuestion: () => void;
   restartQuiz: () => void;
 }
 
-const buildInitialSession = (subjectId: SubjectId): QuizSession => ({
+const buildEmptySession = (subjectId: SubjectId): QuizSession => ({
   subjectId,
-  questions: getQuestionsBySubject(subjectId),
+  questions: [],
   currentIndex: 0,
   answers: [],
   isFinished: false,
 });
 
 export const useQuiz = (subjectId: SubjectId): UseQuizReturn => {
-  const [session, setSession] = useState<QuizSession>(() => buildInitialSession(subjectId));
+  const [session, setSession] = useState<QuizSession>(() => buildEmptySession(subjectId));
   const [selectedOptionId, setSelectedOptionId] = useState<OptionId | null>(null);
   const [hasAnswered, setHasAnswered] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadQuestions = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    setSession(buildEmptySession(subjectId));
+    setSelectedOptionId(null);
+    setHasAnswered(false);
+    try {
+      const questions = await fetchQuestionsForSubject(subjectId, QUESTIONS_PER_SESSION);
+      setSession((prev) => ({ ...prev, questions }));
+    } catch {
+      setError('No se pudieron cargar las preguntas. Intenta de nuevo.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [subjectId]);
+
+  useEffect(() => {
+    loadQuestions();
+  }, [loadQuestions]);
 
   const isLastQuestion = session.currentIndex === session.questions.length - 1;
 
   const correctCount = useMemo(
     () => session.answers.filter((a) => a.isCorrect).length,
-    [session.answers]
+    [session.answers],
   );
 
   const selectOption = (optionId: OptionId) => {
@@ -59,10 +85,8 @@ export const useQuiz = (subjectId: SubjectId): UseQuizReturn => {
   };
 
   const restartQuiz = () => {
-    setSession(buildInitialSession(subjectId));
-    setSelectedOptionId(null);
-    setHasAnswered(false);
+    loadQuestions();
   };
 
-  return { session, selectedOptionId, hasAnswered, isLastQuestion, correctCount, selectOption, confirmAnswer, nextQuestion, restartQuiz };
+  return { session, selectedOptionId, hasAnswered, isLastQuestion, correctCount, isLoading, error, selectOption, confirmAnswer, nextQuestion, restartQuiz };
 };

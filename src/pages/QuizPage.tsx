@@ -14,7 +14,7 @@ export const QuizPage = () => {
 
   const subject = SUBJECTS.find((s) => s.id === subjectId);
 
-  const { session, selectedOptionId, hasAnswered, isLastQuestion, correctCount, selectOption, confirmAnswer, nextQuestion, restartQuiz } =
+  const { session, selectedOptionId, hasAnswered, isLastQuestion, correctCount, isLoading, error, selectOption, confirmAnswer, nextQuestion, restartQuiz } =
     useQuiz((subjectId as SubjectId) ?? 'lectura-critica');
 
   if (!subject) {
@@ -28,12 +28,23 @@ export const QuizPage = () => {
     );
   }
 
-  if (session.questions.length === 0) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-500">
-        No hay preguntas disponibles para esta materia todavía.{' '}
-        <button className="text-indigo-600 underline ml-1" onClick={() => navigate('/')}>
-          Volver
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-gray-500">
+        <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-gray-500">
+        <p className="text-red-500 font-medium">{error}</p>
+        <button className="bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition-colors" onClick={restartQuiz}>
+          Reintentar
+        </button>
+        <button className="text-indigo-600 underline text-sm" onClick={() => navigate('/')}>
+          Volver al inicio
         </button>
       </div>
     );
