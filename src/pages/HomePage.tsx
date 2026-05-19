@@ -19,11 +19,11 @@ interface StatCardProps {
 }
 
 const StatCard = ({ icon, value, label, iconBg, iconColor }: StatCardProps) => (
-  <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100 flex items-center gap-4 flex-1">
+  <div className="flex flex-1 items-center gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-5 dark:border-slate-800 dark:bg-slate-900/70">
     <div className={`${iconBg} ${iconColor} rounded-xl p-3 flex-shrink-0`}>{icon}</div>
     <div>
-      <p className="text-2xl font-extrabold text-gray-900 leading-none">{value}</p>
-      <p className="text-xs text-gray-400 mt-1">{label}</p>
+      <p className="leading-none text-2xl font-extrabold text-gray-900 dark:text-slate-100">{value}</p>
+      <p className="mt-1 text-xs text-gray-400 dark:text-slate-500">{label}</p>
     </div>
   </div>
 );
@@ -34,23 +34,23 @@ export const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-slate-950">
       <Navbar pageName="Inicio" streak={stats.streak} />
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-8 space-y-4">
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:shadow-black/20">
           <LevelMap overallCompletionPct={overallCompletionPct} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
           <section className="lg:col-span-2 space-y-4">
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:shadow-black/20">
               <div className="space-y-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100">
                     Hola, {isLoading ? '...' : userProgress.username}
                   </h1>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="mt-1 text-sm text-gray-400 dark:text-slate-400">
                     {error ?? 'Que area vas a practicar hoy?'}
                   </p>
                 </div>
@@ -80,9 +80,9 @@ export const HomePage = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:shadow-black/20">
               <section aria-labelledby="subjects-heading">
-                <h2 id="subjects-heading" className="text-xl font-bold text-gray-800 mb-4">
+                <h2 id="subjects-heading" className="mb-4 text-xl font-bold text-gray-800 dark:text-slate-100">
                   Areas de evaluacion
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

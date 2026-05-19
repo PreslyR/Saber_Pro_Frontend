@@ -34,34 +34,34 @@ export const QuizResults = ({
   const { text: performanceText, color: performanceColor } = getPerformanceLabel(pct);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 max-w-md w-full text-center">
-        <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-4">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-slate-950">
+      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:shadow-black/20">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-950/40">
           <EmojiEventsOutlinedIcon className="text-indigo-500" style={{ fontSize: 32 }} />
         </div>
 
-        <h2 className="text-xl font-bold text-gray-900 mb-1">Quiz finalizado</h2>
-        <p className="text-sm text-gray-400 mb-6">{subjectName}</p>
+        <h2 className="mb-1 text-xl font-bold text-gray-900 dark:text-slate-100">Quiz finalizado</h2>
+        <p className="mb-6 text-sm text-gray-400 dark:text-slate-500">{subjectName}</p>
 
-        <div className="bg-gray-50 rounded-2xl border border-gray-100 p-5 mb-4">
+        <div className="mb-4 rounded-2xl border border-gray-100 bg-gray-50 p-5 dark:border-slate-800 dark:bg-slate-950/60">
           <p className="text-6xl font-extrabold text-indigo-600 mb-1">{pct}%</p>
           <p className={`text-sm font-semibold ${performanceColor}`}>{performanceText}</p>
-          <p className="text-gray-400 text-xs mt-2">
+          <p className="mt-2 text-xs text-gray-400 dark:text-slate-500">
             {correctCount} de {totalQuestions} respuestas correctas
           </p>
         </div>
 
         {isSavingResult && (
-          <p className="text-sm text-gray-500 mb-4">Guardando resultado...</p>
+          <p className="mb-4 text-sm text-gray-500 dark:text-slate-400">Guardando resultado...</p>
         )}
 
         {saveError && (
-          <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-left">
-            <p className="text-sm text-red-600">{saveError}</p>
+          <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-left dark:border-red-950 dark:bg-red-950/30">
+            <p className="text-sm text-red-600 dark:text-red-300">{saveError}</p>
             {onRetrySave && (
               <button
                 onClick={onRetrySave}
-                className="mt-3 text-sm font-semibold text-red-600 hover:text-red-700"
+                className="mt-3 text-sm font-semibold text-red-600 hover:text-red-700 dark:text-red-300 dark:hover:text-red-200"
               >
                 Reintentar guardado
               </button>
@@ -73,7 +73,7 @@ export const QuizResults = ({
           <button
             onClick={onGoHome}
             disabled={isSavingResult}
-            className="flex-1 flex items-center justify-center gap-2 border border-gray-200 text-gray-600 font-semibold px-4 py-3 rounded-xl hover:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-3 font-semibold text-gray-600 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
           >
             <HomeRoundedIcon fontSize="small" />
             Inicio
@@ -81,7 +81,7 @@ export const QuizResults = ({
           <button
             onClick={onRestart}
             disabled={isSavingResult}
-            className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-3 rounded-xl disabled:bg-indigo-300 disabled:cursor-not-allowed transition-colors"
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-indigo-300 dark:disabled:bg-indigo-900"
           >
             <ReplayRoundedIcon fontSize="small" />
             Reintentar

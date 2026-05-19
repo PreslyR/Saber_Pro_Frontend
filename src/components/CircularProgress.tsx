@@ -3,6 +3,8 @@ interface CircularProgressProps {
   size?: number;
   strokeWidth?: number;
   strokeColor?: string;
+  trackClassName?: string;
+  labelClassName?: string;
 }
 
 export const CircularProgress = ({
@@ -10,6 +12,8 @@ export const CircularProgress = ({
   size = 64,
   strokeWidth = 5,
   strokeColor = '#4f46e5',
+  trackClassName = 'text-gray-200 dark:text-slate-700',
+  labelClassName = 'text-gray-700 dark:text-slate-200',
 }: CircularProgressProps) => {
   const clamped = Math.min(100, Math.max(0, percentage));
   const radius = (size - strokeWidth) / 2;
@@ -26,7 +30,15 @@ export const CircularProgress = ({
       aria-label={`Progreso: ${clamped}%`}
     >
       <svg width={size} height={size} className="-rotate-90" aria-hidden="true">
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#e5e7eb" strokeWidth={strokeWidth} />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={strokeWidth}
+          className={trackClassName}
+        />
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -40,7 +52,7 @@ export const CircularProgress = ({
           style={{ transition: 'stroke-dashoffset 0.5s ease-out' }}
         />
       </svg>
-      <span className="absolute text-xs font-bold text-gray-700">{clamped}%</span>
+      <span className={`absolute text-xs font-bold ${labelClassName}`}>{clamped}%</span>
     </div>
   );
 };

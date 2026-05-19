@@ -82,6 +82,15 @@ export interface UserProgress {
   subjects: Record<SubjectId, SubjectProgress>;
 }
 
+export interface UserProfile {
+  id: string;
+  email: string;
+  nombre: string;
+  apellido: string;
+  carrera: string;
+  semestre: number;
+}
+
 export interface QuizAttemptAnswerSubmission {
   statement: string;
   options: QuizOption[];
