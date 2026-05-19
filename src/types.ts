@@ -1,5 +1,3 @@
-// ── Subjects ──────────────────────────────────────────────────────────────
-
 export type SubjectId =
   | 'razonamiento-cuantitativo'
   | 'lectura-critica'
@@ -26,8 +24,6 @@ export interface Subject {
   totalQuestions: number;
 }
 
-// ── Stats ──────────────────────────────────────────────────────────────────
-
 export interface UserStats {
   level: number;
   xp: number;
@@ -41,8 +37,6 @@ export interface UserStats {
     description: string;
   };
 }
-
-// ── Quiz ───────────────────────────────────────────────────────────────────
 
 export type OptionId = 'A' | 'B' | 'C' | 'D';
 
@@ -60,8 +54,6 @@ export interface QuizQuestion {
   explanation: string;
 }
 
-export type AnswerStatus = 'unanswered' | 'correct' | 'incorrect';
-
 export interface QuizAnswerRecord {
   questionId: string;
   selectedOptionId: OptionId;
@@ -76,8 +68,6 @@ export interface QuizSession {
   isFinished: boolean;
 }
 
-// ── Progress ───────────────────────────────────────────────────────────────
-
 export interface SubjectProgress {
   subjectId: SubjectId;
   completedQuestions: number;
@@ -90,4 +80,22 @@ export interface UserProgress {
   userId: string;
   username: string;
   subjects: Record<SubjectId, SubjectProgress>;
+}
+
+export interface QuizAttemptAnswerSubmission {
+  statement: string;
+  options: QuizOption[];
+  selectedOptionId: OptionId;
+  correctOptionId: OptionId;
+  explanation: string;
+}
+
+export interface QuizAttemptSubmission {
+  subjectId: SubjectId;
+  answers: QuizAttemptAnswerSubmission[];
+}
+
+export interface ProgressDashboardResponse {
+  userProgress: UserProgress;
+  stats: UserStats;
 }

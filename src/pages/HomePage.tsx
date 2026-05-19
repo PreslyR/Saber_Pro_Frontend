@@ -29,7 +29,7 @@ const StatCard = ({ icon, value, label, iconBg, iconColor }: StatCardProps) => (
 );
 
 export const HomePage = () => {
-  const { userProgress, stats, getSubjectProgress, overallCompletionPct, overallAccuracyPct } =
+  const { userProgress, stats, getSubjectProgress, overallCompletionPct, overallAccuracyPct, isLoading, error } =
     useUserProgress();
   const navigate = useNavigate();
 
@@ -38,19 +38,21 @@ export const HomePage = () => {
       <Navbar pageName="Inicio" streak={stats.streak} />
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-8 space-y-4">
-        {/* Mapa de niveles */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
           <LevelMap overallCompletionPct={overallCompletionPct} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
           <section className="lg:col-span-2 space-y-4">
-            {/* Estadísticas del día */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
               <div className="space-y-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900">¡Hola, {userProgress.username}!</h1>
-                  <p className="text-gray-400 text-sm mt-1">¿Qué área vas a practicar hoy?</p>
+                  <h1 className="text-3xl font-bold text-gray-900">
+                    Hola, {isLoading ? '...' : userProgress.username}
+                  </h1>
+                  <p className="text-gray-400 text-sm mt-1">
+                    {error ?? 'Que area vas a practicar hoy?'}
+                  </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <StatCard
@@ -62,7 +64,7 @@ export const HomePage = () => {
                   />
                   <StatCard
                     icon={<LocalFireDepartmentIcon fontSize="medium" />}
-                    value={`${stats.streak} días`}
+                    value={`${stats.streak} dias`}
                     label="Racha activa"
                     iconBg="bg-orange-100"
                     iconColor="text-orange-500"
@@ -78,11 +80,10 @@ export const HomePage = () => {
               </div>
             </div>
 
-            {/* Áreas de evaluación */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
               <section aria-labelledby="subjects-heading">
                 <h2 id="subjects-heading" className="text-xl font-bold text-gray-800 mb-4">
-                  Áreas de evaluación
+                  Areas de evaluacion
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {SUBJECTS.map((subject) => (
@@ -98,7 +99,6 @@ export const HomePage = () => {
             </div>
           </section>
 
-          {/* Panel de progreso */}
           <div className="lg:col-span-1">
             <ProgressSidebar
               stats={stats}

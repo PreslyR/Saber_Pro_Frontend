@@ -8,10 +8,10 @@ import type { Subject, SubjectIconKey, SubjectProgress } from '../types';
 import { ProgressBar } from './ProgressBar';
 
 const ICON_MAP: Record<SubjectIconKey, React.ReactNode> = {
-  'calculate': <CalculateOutlinedIcon fontSize="large" />,
+  calculate: <CalculateOutlinedIcon fontSize="large" />,
   'menu-book': <MenuBookOutlinedIcon fontSize="large" />,
-  'language': <LanguageIcon fontSize="large" />,
-  'science': <ScienceOutlinedIcon fontSize="large" />,
+  language: <LanguageIcon fontSize="large" />,
+  science: <ScienceOutlinedIcon fontSize="large" />,
   'account-balance': <AccountBalanceOutlinedIcon fontSize="large" />,
   'edit-note': <EditNoteOutlinedIcon fontSize="large" />,
 };
@@ -29,9 +29,13 @@ const resolveAccuracyLabel = (accuracyPct: number): { text: string; className: s
 };
 
 export const SubjectCard = ({ subject, progress, onSelect }: SubjectCardProps) => {
+  const displayedCompletedQuestions = Math.min(
+    progress.completedQuestions,
+    progress.totalQuestions,
+  );
   const completionPct =
     progress.totalQuestions > 0
-      ? Math.round((progress.completedQuestions / progress.totalQuestions) * 100)
+      ? Math.min(100, Math.round((progress.completedQuestions / progress.totalQuestions) * 100))
       : 0;
 
   const accuracyPct =
@@ -49,7 +53,7 @@ export const SubjectCard = ({ subject, progress, onSelect }: SubjectCardProps) =
       aria-label={`Ir a ${subject.name}`}
     >
       <div className="flex items-start justify-between mb-3">
-        <span className={`${subject.accentColor}`} aria-hidden="true">
+        <span className={subject.accentColor} aria-hidden="true">
           {ICON_MAP[subject.iconKey]}
         </span>
         {hasStarted ? (
@@ -68,7 +72,9 @@ export const SubjectCard = ({ subject, progress, onSelect }: SubjectCardProps) =
 
       <div className="space-y-1.5">
         <div className="flex justify-between text-xs text-gray-400">
-          <span>{progress.completedQuestions} / {progress.totalQuestions} preguntas</span>
+          <span>
+            {displayedCompletedQuestions} / {progress.totalQuestions} preguntas
+          </span>
           <span className={`font-semibold ${subject.accentColor}`}>{completionPct}%</span>
         </div>
         <ProgressBar percentage={completionPct} colorClass={subject.progressColor} heightClass="h-2" />

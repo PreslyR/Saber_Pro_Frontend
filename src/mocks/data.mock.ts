@@ -1,10 +1,11 @@
-import type { Subject, UserProgress, UserStats } from '../types';
+import type { Subject } from '../types';
 
 export const SUBJECTS: Subject[] = [
   {
     id: 'razonamiento-cuantitativo',
     name: 'Razonamiento Cuantitativo',
-    description: 'Desarrolla tus habilidades matemáticas, estadísticas y de pensamiento analítico.',
+    description:
+      'Desarrolla tus habilidades matematicas, estadisticas y de pensamiento analitico.',
     iconKey: 'calculate',
     accentColor: 'text-blue-600',
     bgColor: 'bg-blue-50 hover:bg-blue-100',
@@ -13,8 +14,9 @@ export const SUBJECTS: Subject[] = [
   },
   {
     id: 'lectura-critica',
-    name: 'Lectura Crítica',
-    description: 'Mejora tu comprensión lectora, análisis textual e interpretación de argumentos.',
+    name: 'Lectura Critica',
+    description:
+      'Mejora tu comprension lectora, analisis textual e interpretacion de argumentos.',
     iconKey: 'menu-book',
     accentColor: 'text-purple-600',
     bgColor: 'bg-purple-50 hover:bg-purple-100',
@@ -23,19 +25,19 @@ export const SUBJECTS: Subject[] = [
   },
   {
     id: 'ingles',
-    name: 'Inglés',
-    description: 'Practica y evalúa tu nivel de comprensión del idioma inglés.',
+    name: 'Ingles',
+    description: 'Practica y evalua tu nivel de comprension del idioma ingles.',
     iconKey: 'language',
     accentColor: 'text-emerald-600',
     bgColor: 'bg-emerald-50 hover:bg-emerald-100',
     progressColor: 'bg-emerald-500',
     totalQuestions: 45,
   },
-  
   {
     id: 'competencias-ciudadanas',
     name: 'Competencias Ciudadanas',
-    description: 'Refuerza tu conocimiento sobre convivencia, democracia y pluralismo.',
+    description:
+      'Refuerza tu conocimiento sobre convivencia, democracia y pluralismo.',
     iconKey: 'account-balance',
     accentColor: 'text-rose-600',
     bgColor: 'bg-rose-50 hover:bg-rose-100',
@@ -44,8 +46,9 @@ export const SUBJECTS: Subject[] = [
   },
   {
     id: 'comunicacion-escrita',
-    name: 'Comunicación Escrita',
-    description: 'Desarrolla tu capacidad para producir textos coherentes, claros y con argumentos sólidos.',
+    name: 'Comunicacion Escrita',
+    description:
+      'Desarrolla tu capacidad para producir textos coherentes, claros y con argumentos solidos.',
     iconKey: 'edit-note',
     accentColor: 'text-teal-600',
     bgColor: 'bg-teal-50 hover:bg-teal-100',
@@ -53,59 +56,3 @@ export const SUBJECTS: Subject[] = [
     totalQuestions: 35,
   },
 ];
-
-export const MOCK_USER_PROGRESS: UserProgress = {
-  userId: 'user-001',
-  username: 'Estudiante',
-  subjects: {
-    'razonamiento-cuantitativo': {
-      subjectId: 'razonamiento-cuantitativo',
-      completedQuestions: 24,
-      totalQuestions: 60,
-      correctAnswers: 18,
-      lastAttempt: '2026-04-28',
-    },
-    'lectura-critica': {
-      subjectId: 'lectura-critica',
-      completedQuestions: 40,
-      totalQuestions: 55,
-      correctAnswers: 35,
-      lastAttempt: '2026-04-30',
-    },
-    ingles: {
-      subjectId: 'ingles',
-      completedQuestions: 10,
-      totalQuestions: 45,
-      correctAnswers: 8,
-      lastAttempt: '2026-04-25',
-    },
-    
-    'competencias-ciudadanas': {
-      subjectId: 'competencias-ciudadanas',
-      completedQuestions: 30,
-      totalQuestions: 40,
-      correctAnswers: 26,
-      lastAttempt: '2026-04-29',
-    },
-    'comunicacion-escrita': {
-      subjectId: 'comunicacion-escrita',
-      completedQuestions: 0,
-      totalQuestions: 35,
-      correctAnswers: 0,
-    },
-  },
-};
-
-export const MOCK_USER_STATS: UserStats = {
-  level: 3,
-  xp: 48,
-  xpToNextLevel: 100,
-  streak: 5,
-  questionsToday: 7,
-  dailyGoalCompleted: 2,
-  dailyGoalTarget: 10,
-  objective: {
-    name: 'Saber Pro ICFES',
-    description: 'Prepararte para el examen de estado con un enfoque integral en todas las áreas evaluadas.',
-  },
-};

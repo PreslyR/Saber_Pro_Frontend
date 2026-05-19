@@ -6,21 +6,35 @@ import { AnswerFeedback } from '../components/AnswerFeedback';
 import { QuizResults } from '../components/QuizResults';
 import { ProgressBar } from '../components/ProgressBar';
 import { SUBJECTS } from '../mocks/data.mock';
-import type { SubjectId, OptionId } from '../types';
+import type { OptionId, SubjectId } from '../types';
 
 export const QuizPage = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
   const navigate = useNavigate();
 
-  const subject = SUBJECTS.find((s) => s.id === subjectId);
+  const subject = SUBJECTS.find((item) => item.id === subjectId);
 
-  const { session, selectedOptionId, hasAnswered, isLastQuestion, correctCount, isLoading, error, selectOption, confirmAnswer, nextQuestion, restartQuiz } =
-    useQuiz((subjectId as SubjectId) ?? 'lectura-critica');
+  const {
+    session,
+    selectedOptionId,
+    hasAnswered,
+    isLastQuestion,
+    correctCount,
+    isLoading,
+    error,
+    isSavingResult,
+    saveError,
+    selectOption,
+    confirmAnswer,
+    nextQuestion,
+    restartQuiz,
+    retrySaveResult,
+  } = useQuiz((subjectId as SubjectId) ?? 'lectura-critica');
 
   if (!subject) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
-        Materia no encontrada.{' '}
+        Materia no encontrada.
         <button className="text-indigo-600 underline ml-1" onClick={() => navigate('/')}>
           Volver
         </button>
@@ -40,7 +54,10 @@ export const QuizPage = () => {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-gray-500">
         <p className="text-red-500 font-medium">{error}</p>
-        <button className="bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition-colors" onClick={restartQuiz}>
+        <button
+          className="bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
+          onClick={restartQuiz}
+        >
           Reintentar
         </button>
         <button className="text-indigo-600 underline text-sm" onClick={() => navigate('/')}>
@@ -58,6 +75,9 @@ export const QuizPage = () => {
         totalQuestions={session.questions.length}
         onRestart={restartQuiz}
         onGoHome={() => navigate('/')}
+        isSavingResult={isSavingResult}
+        saveError={saveError}
+        onRetrySave={retrySaveResult}
       />
     );
   }
@@ -71,7 +91,6 @@ export const QuizPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Cabecera del quiz */}
       <div className="bg-white border-b border-gray-200 px-4 py-4 sticky top-0 z-10">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-4 mb-3">
@@ -95,7 +114,6 @@ export const QuizPage = () => {
       </div>
 
       <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-6 space-y-4">
-        {/* Enunciado de la pregunta */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
           <p className="text-xs font-semibold text-indigo-400 uppercase tracking-widest mb-3">
             Pregunta {session.currentIndex + 1}
@@ -131,7 +149,7 @@ export const QuizPage = () => {
               onClick={nextQuestion}
               className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
             >
-              {isLastQuestion ? 'Ver resultados' : 'Siguiente pregunta →'}
+              {isLastQuestion ? 'Ver resultados' : 'Siguiente pregunta ->'}
             </button>
           )}
         </div>
