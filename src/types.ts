@@ -108,3 +108,19 @@ export interface ProgressDashboardResponse {
   userProgress: UserProgress;
   stats: UserStats;
 }
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+}
+
+export interface ChatSendRequest {
+  message: string;
+  subjectId?: SubjectId;
+}
+
+export interface ChatSendResponse {
+  reply: string;
+}

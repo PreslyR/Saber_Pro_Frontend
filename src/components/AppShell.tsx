@@ -22,6 +22,7 @@ import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import type { SubjectId, UserProfile } from '../types';
+import { ChatBot } from './ChatBot';
 import { logout } from '../services/authService';
 import { getMyProfile } from '../services/userService';
 import { useTheme } from './ThemeProvider';
@@ -453,6 +454,7 @@ export const AppShell = () => {
         profileError={profileError}
         onLogout={handleLogout}
       />
+      <ChatBot />
     </AppShellContext.Provider>
   );
 };
