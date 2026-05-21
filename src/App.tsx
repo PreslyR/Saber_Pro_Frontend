@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppShell } from './components/AppShell';
 import { HomePage } from './pages/HomePage';
 import { QuizPage } from './pages/QuizPage';
+import { WritingPage } from './pages/WritingPage';
 import { LoginPage } from './pages/LoginPage';
 import { isAuthenticated } from './services/authService';
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route element={<PrivateRoute><AppShell /></PrivateRoute>}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/quiz/comunicacion-escrita" element={<WritingPage />} />
           <Route path="/quiz/:subjectId" element={<QuizPage />} />
         </Route>
       </Routes>

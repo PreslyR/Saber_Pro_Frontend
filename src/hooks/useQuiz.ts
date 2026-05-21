@@ -39,8 +39,11 @@ export const useQuiz = (subjectId: SubjectId): UseQuizReturn => {
   const [isSavingResult, setIsSavingResult] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [hasSavedResult, setHasSavedResult] = useState(false);
+  const [loadTrigger, setLoadTrigger] = useState(0);
 
-  const loadQuestions = useCallback(async () => {
+  useEffect(() => {
+    let isMounted = true;
+
     setIsLoading(true);
     setError(null);
     setSession(buildEmptySession(subjectId));
@@ -50,19 +53,27 @@ export const useQuiz = (subjectId: SubjectId): UseQuizReturn => {
     setSaveError(null);
     setHasSavedResult(false);
 
-    try {
-      const questions = await fetchQuestionsForSubject(subjectId, QUESTIONS_PER_SESSION);
-      setSession((prev) => ({ ...prev, questions }));
-    } catch {
-      setError('No se pudieron cargar las preguntas. Intenta de nuevo.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [subjectId]);
+    const load = async () => {
+      try {
+        const questions = await fetchQuestionsForSubject(subjectId, QUESTIONS_PER_SESSION);
+        if (!isMounted) return;
+        setSession((prev) => ({ ...prev, questions }));
+      } catch {
+        if (!isMounted) return;
+        setError('No se pudieron cargar las preguntas. Intenta de nuevo.');
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
 
-  useEffect(() => {
-    void loadQuestions();
-  }, [loadQuestions]);
+    void load();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [subjectId, loadTrigger]);
 
   const isLastQuestion = session.currentIndex === session.questions.length - 1;
 
@@ -171,7 +182,7 @@ export const useQuiz = (subjectId: SubjectId): UseQuizReturn => {
   };
 
   const restartQuiz = () => {
-    void loadQuestions();
+    setLoadTrigger((prev) => prev + 1);
   };
 
   const retrySaveResult = () => {

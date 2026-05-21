@@ -124,3 +124,28 @@ export interface ChatSendRequest {
 export interface ChatSendResponse {
   reply: string;
 }
+
+export interface LeaderboardEntry {
+  rank: number;
+  userId: string;
+  username: string;
+  xp: number;
+  streak: number;
+  level: number;
+}
+
+export interface LeaderboardResponse {
+  entries: LeaderboardEntry[];
+}
+
+export interface Situation {
+  id: string;
+  text: string;
+  instruction: string;
+  criteria: string[];
+}
+
+export interface SituationValidationResult {
+  feedback: string;
+  score?: number;
+}
