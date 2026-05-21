@@ -159,17 +159,14 @@ export const WritingPage = () => {
           {/* Validation result */}
           {validationResult && (
             <div className="mt-4 rounded-xl border border-teal-200 bg-teal-50 p-4 dark:border-teal-900/50 dark:bg-teal-950/30">
-              <div className="mb-2 flex items-center gap-2">
+              <div className="mb-3 flex items-center gap-2">
                 <CheckCircleRoundedIcon sx={{ fontSize: 18 }} className="text-teal-500" />
                 <span className="text-sm font-semibold text-teal-700 dark:text-teal-300">
-                  Retroalimentación
-                  {validationResult.score !== undefined && (
-                    <span className="ml-2 font-bold">{validationResult.score} / 100</span>
-                  )}
+                  Evaluación
                 </span>
               </div>
-              <p className="text-sm leading-relaxed text-teal-700 dark:text-teal-300">
-                {validationResult.feedback}
+              <p className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700 dark:text-slate-300">
+                {validationResult.evaluacion}
               </p>
             </div>
           )}

@@ -47,7 +47,7 @@ export const useSituation = () => {
     setIsValidating(true);
     setValidationError(null);
     try {
-      const result = await validateWritingAnswer(situation.id, answer.trim());
+      const result = await validateWritingAnswer(situation.text, answer.trim());
       setValidationResult(result);
     } catch {
       setValidationError('No se pudo validar la respuesta. Intenta de nuevo.');

@@ -12,8 +12,7 @@ interface ApiSituation {
 }
 
 interface ApiValidationResult {
-  feedback: string;
-  puntaje?: number;
+  evaluacion: string;
 }
 
 export const fetchSituation = async (): Promise<Situation> => {
@@ -42,7 +41,7 @@ export const fetchSituation = async (): Promise<Situation> => {
 };
 
 export const validateWritingAnswer = async (
-  situationId: string,
+  situationText: string,
   answer: string,
 ): Promise<SituationValidationResult> => {
   const token = getToken();
@@ -52,7 +51,7 @@ export const validateWritingAnswer = async (
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ situacionId: situationId, respuesta: answer }),
+    body: JSON.stringify({ situacion: situationText, texto: answer }),
   });
 
   if (!response.ok) {
@@ -62,7 +61,6 @@ export const validateWritingAnswer = async (
 
   const data = (await response.json()) as ApiValidationResult;
   return {
-    feedback: data.feedback,
-    score: data.puntaje,
+    evaluacion: data.evaluacion,
   };
 };

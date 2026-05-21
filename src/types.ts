@@ -146,6 +146,5 @@ export interface Situation {
 }
 
 export interface SituationValidationResult {
-  feedback: string;
-  score?: number;
+  evaluacion: string;
 }
