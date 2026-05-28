@@ -7,6 +7,8 @@ import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import type { DifficultyTier } from '../types';
+import { DIFFICULTY_LABELS, getDifficultyTier } from '../utils/difficulty';
 
 type NodeStatus = 'completed' | 'active' | 'locked';
 
@@ -28,9 +30,12 @@ const LEVEL_NODES: LevelNodeDef[] = [
 
 interface LevelMapProps {
   overallCompletionPct: number;
+  difficultyTier?: DifficultyTier;
 }
 
-export const LevelMap = ({ overallCompletionPct }: LevelMapProps) => {
+export const LevelMap = ({ overallCompletionPct, difficultyTier }: LevelMapProps) => {
+  const tier = difficultyTier ?? getDifficultyTier(overallCompletionPct);
+
   const getStatus = (index: number): NodeStatus => {
     const node = LEVEL_NODES[index];
     const nextNode = LEVEL_NODES[index + 1];
@@ -68,11 +73,16 @@ export const LevelMap = ({ overallCompletionPct }: LevelMapProps) => {
             Responde preguntas para desbloquear el siguiente nivel
           </p>
         </div>
-        {nextNode && (
-          <span className="whitespace-nowrap rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600 dark:border-indigo-950 dark:bg-indigo-950/30 dark:text-indigo-300">
-            Siguiente: {nextNode.title}
+        <div className="flex items-center gap-2">
+          <span className="whitespace-nowrap rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-600 dark:border-indigo-950 dark:bg-indigo-950/30 dark:text-indigo-300">
+            {DIFFICULTY_LABELS[tier]}
           </span>
-        )}
+          {nextNode && (
+            <span className="whitespace-nowrap rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600 dark:border-indigo-950 dark:bg-indigo-950/30 dark:text-indigo-300">
+              Siguiente: {nextNode.title}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="-mx-2 overflow-x-auto px-2 pb-1">

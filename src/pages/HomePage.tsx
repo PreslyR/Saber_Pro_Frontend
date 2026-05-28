@@ -96,6 +96,7 @@ export const HomePage = () => {
                       subject={subject}
                       progress={getSubjectProgress(subject.id as SubjectId)}
                       onSelect={(id) => navigate(`/quiz/${id}`)}
+                      onRehearsal={(id) => navigate(`/rehearsal/${id}`)}
                       locked={subject.id === 'lectura-critica'}
                     />
                   ))}

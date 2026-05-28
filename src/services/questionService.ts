@@ -1,4 +1,4 @@
-import type { QuizQuestion, SubjectId, OptionId } from '../types';
+import type { QuizQuestion, SubjectId, OptionId, DifficultyTier } from '../types';
 import { getToken } from './authService';
 
 const API_URL: string = import.meta.env.VITE_API_URL;
@@ -37,15 +37,24 @@ const mapApiQuestion = (
   explanation: raw.explicacion,
 });
 
-const fetchSingleQuestion = async (competencia: string): Promise<ApiQuestion> => {
+const fetchSingleQuestion = async (
+  competencia: string,
+  dificultad?: DifficultyTier,
+): Promise<ApiQuestion> => {
   const token = getToken();
+  const body: Record<string, string> = { competencia };
+
+  if (dificultad) {
+    body.dificultad = dificultad;
+  }
+
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ competencia }),
+    body: JSON.stringify(body),
   });
   if (!response.ok) {
     const errorBody = await response.text();
@@ -58,13 +67,14 @@ const fetchSingleQuestion = async (competencia: string): Promise<ApiQuestion> =>
 export const fetchQuestionsForSubject = async (
   subjectId: SubjectId,
   count: number = 20,
+  dificultad?: DifficultyTier,
 ): Promise<QuizQuestion[]> => {
   const competencia = SUBJECT_COMPETENCIA[subjectId];
   if (!competencia) {
     throw new Error('Esta área de evaluación aún no está disponible en el servidor.');
   }
   const requests = Array.from({ length: count }, (_, i) =>
-    fetchSingleQuestion(competencia).then((raw) => mapApiQuestion(raw, subjectId, i)),
+    fetchSingleQuestion(competencia, dificultad).then((raw) => mapApiQuestion(raw, subjectId, i)),
   );
   return Promise.all(requests);
 };

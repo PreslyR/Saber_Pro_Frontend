@@ -5,6 +5,8 @@ export type SubjectId =
   | 'competencias-ciudadanas'
   | 'comunicacion-escrita';
 
+export type DifficultyTier = 'basic' | 'intermediate' | 'advanced';
+
 export type SubjectIconKey =
   | 'calculate'
   | 'menu-book'
@@ -32,6 +34,7 @@ export interface UserStats {
   questionsToday: number;
   dailyGoalCompleted: number;
   dailyGoalTarget: number;
+  overallCompletionPct: number;
   objective: {
     name: string;
     description: string;
@@ -147,4 +150,33 @@ export interface Situation {
 
 export interface SituationValidationResult {
   evaluacion: string;
+}
+
+export interface WrongAnswer {
+  id: number;
+  statement: string;
+  options: QuizOption[];
+  correctOptionId: OptionId;
+  explanation: string;
+  sourceAnswerId: number;
+}
+
+export interface RehearsalAnswerSubmission {
+  sourceAnswerId: number;
+  selectedOptionId: OptionId;
+  isCorrect: boolean;
+}
+
+export interface RehearsalSessionSubmission {
+  subjectId: SubjectId;
+  answers: RehearsalAnswerSubmission[];
+}
+
+export interface RehearsalSessionResult {
+  id: number;
+  userId: string;
+  subjectId: string;
+  totalQuestions: number;
+  correctAnswers: number;
+  finishedAt: string;
 }

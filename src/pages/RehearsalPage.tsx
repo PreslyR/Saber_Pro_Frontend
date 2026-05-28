@@ -1,9 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import { useQuiz } from '../hooks/useQuiz';
-import { useUserProgress } from '../hooks/useUserProgress';
-import { getDifficultyTier } from '../utils/difficulty';
+import { useRehearsal } from '../hooks/useRehearsal';
 import { AnswerOptions } from '../components/AnswerOptions';
 import { AnswerFeedback } from '../components/AnswerFeedback';
 import { useAppShell } from '../components/AppShell';
@@ -12,38 +10,41 @@ import { ProgressBar } from '../components/ProgressBar';
 import { SUBJECTS } from '../mocks/data.mock';
 import type { OptionId, SubjectId } from '../types';
 
-export const QuizPage = () => {
+export const RehearsalPage = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
   const navigate = useNavigate();
   const { openSidebar } = useAppShell();
 
   const subject = SUBJECTS.find((item) => item.id === subjectId);
 
-  const { stats } = useUserProgress();
-  const difficultyTier = getDifficultyTier(stats.overallCompletionPct);
-
   const {
-    session,
+    questions,
+    currentIndex,
     selectedOptionId,
     hasAnswered,
     isLastQuestion,
+    isFinished,
     correctCount,
+    totalQuestions,
+    answers,
     isLoading,
     error,
+    hasWrongAnswers,
     isSavingResult,
     saveError,
     selectOption,
     confirmAnswer,
     nextQuestion,
-    restartQuiz,
     retrySaveResult,
-  } = useQuiz((subjectId as SubjectId) ?? 'lectura-critica', difficultyTier);
+  } = useRehearsal((subjectId as SubjectId) ?? 'lectura-critica');
+
+  const handleGoHome = () => navigate('/');
 
   if (!subject) {
     return (
       <div className="flex min-h-screen items-center justify-center text-gray-500 dark:bg-slate-950 dark:text-slate-400">
         Materia no encontrada.
-        <button className="text-indigo-600 underline ml-1" onClick={() => navigate('/')}>
+        <button className="text-indigo-600 underline ml-1" onClick={handleGoHome}>
           Volver
         </button>
       </div>
@@ -62,27 +63,43 @@ export const QuizPage = () => {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 text-gray-500 dark:bg-slate-950 dark:text-slate-400">
         <p className="text-red-500 font-medium">{error}</p>
-        <button
-          className="bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
-          onClick={restartQuiz}
-        >
-          Reintentar
-        </button>
-        <button className="text-indigo-600 underline text-sm" onClick={() => navigate('/')}>
+        <button className="text-indigo-600 underline text-sm" onClick={handleGoHome}>
           Volver al inicio
         </button>
       </div>
     );
   }
 
-  if (session.isFinished) {
+  if (!hasWrongAnswers) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center px-4 bg-gray-50 dark:bg-slate-950">
+        <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:shadow-black/20">
+          <h2 className="mb-3 text-xl font-bold text-gray-900 dark:text-slate-100">
+            Repaso de errores
+          </h2>
+          <p className="mb-2 text-sm text-gray-400 dark:text-slate-500">{subject.name}</p>
+          <p className="mb-6 text-base leading-relaxed text-gray-500 dark:text-slate-400">
+            Aun no tienes preguntas incorrectas en esta area. Sigue practicando!
+          </p>
+          <button
+            onClick={handleGoHome}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+          >
+            Volver al inicio
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (isFinished) {
     return (
       <QuizResults
         subjectName={subject.name}
         correctCount={correctCount}
-        totalQuestions={session.questions.length}
-        onRestart={restartQuiz}
-        onGoHome={() => navigate('/')}
+        totalQuestions={totalQuestions}
+        onRestart={handleGoHome}
+        onGoHome={handleGoHome}
         isSavingResult={isSavingResult}
         saveError={saveError}
         onRetrySave={retrySaveResult}
@@ -90,11 +107,11 @@ export const QuizPage = () => {
     );
   }
 
-  const currentQuestion = session.questions[session.currentIndex];
-  const lastAnswer = session.answers[session.answers.length - 1];
+  const currentQuestion = questions[currentIndex];
+  const lastAnswer = answers[answers.length - 1];
   const progressPct =
-    session.questions.length > 0
-      ? Math.round((session.currentIndex / session.questions.length) * 100)
+    totalQuestions > 0
+      ? Math.round((currentIndex / totalQuestions) * 100)
       : 0;
 
   return (
@@ -111,16 +128,16 @@ export const QuizPage = () => {
               <MenuRoundedIcon />
             </button>
             <button
-              onClick={() => navigate('/')}
+              onClick={handleGoHome}
               aria-label="Volver al inicio"
               className="flex-shrink-0 text-gray-400 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-300"
             >
               <ArrowBackRoundedIcon />
             </button>
             <div className="flex-1 min-w-0">
-              <p className="truncate font-semibold text-gray-800 dark:text-slate-100">{subject.name}</p>
-              <p className="text-xs text-gray-400 dark:text-slate-500">
-                Pregunta {session.currentIndex + 1} de {session.questions.length}
+              <p className="truncate font-semibold text-gray-800 dark:text-slate-100">Repaso de errores</p>
+              <p className="truncate text-xs text-gray-400 dark:text-slate-500">
+                {subject.name} &middot; Pregunta {currentIndex + 1} de {totalQuestions}
               </p>
             </div>
             <span className="text-sm font-bold text-indigo-600 flex-shrink-0">{progressPct}%</span>
@@ -132,7 +149,7 @@ export const QuizPage = () => {
       <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-6 space-y-4">
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:shadow-black/20">
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-indigo-400 dark:text-indigo-300">
-            Pregunta {session.currentIndex + 1}
+            Pregunta {currentIndex + 1}
           </p>
           <p className="text-lg font-medium leading-relaxed text-gray-900 dark:text-slate-100">
             {currentQuestion.statement}

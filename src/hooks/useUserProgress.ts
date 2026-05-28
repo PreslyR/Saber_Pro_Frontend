@@ -21,6 +21,7 @@ const DEFAULT_STATS: UserStats = {
   questionsToday: 0,
   dailyGoalCompleted: 0,
   dailyGoalTarget: 10,
+  overallCompletionPct: 0,
   objective: {
     name: 'Saber Pro ICFES',
     description: 'Prepararte para el examen de estado con practica constante en todas las areas evaluadas.',

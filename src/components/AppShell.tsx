@@ -203,12 +203,12 @@ const AppSidebar = ({
       >
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-5 dark:border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-700 text-lg font-bold text-white">
-              S
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Saber Pro</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Tu espacio de practica</p>
+<div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 text-lg font-bold text-white">
+                E
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">EduSaber</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Preparación inteligente para el SABER PRO</p>
             </div>
           </div>
           <button

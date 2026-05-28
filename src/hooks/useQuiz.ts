@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { OptionId, QuizAnswerRecord, QuizAttemptSubmission, QuizSession, SubjectId } from '../types';
+import type { OptionId, QuizAnswerRecord, QuizAttemptSubmission, QuizSession, SubjectId, DifficultyTier } from '../types';
 import { fetchQuestionsForSubject } from '../services/questionService';
 import { saveQuizAttempt } from '../services/progressService';
 
@@ -30,7 +30,10 @@ const buildEmptySession = (subjectId: SubjectId): QuizSession => ({
   isFinished: false,
 });
 
-export const useQuiz = (subjectId: SubjectId): UseQuizReturn => {
+export const useQuiz = (
+  subjectId: SubjectId,
+  difficultyTier?: DifficultyTier,
+): UseQuizReturn => {
   const [session, setSession] = useState<QuizSession>(() => buildEmptySession(subjectId));
   const [selectedOptionId, setSelectedOptionId] = useState<OptionId | null>(null);
   const [hasAnswered, setHasAnswered] = useState(false);
@@ -55,7 +58,7 @@ export const useQuiz = (subjectId: SubjectId): UseQuizReturn => {
 
     const load = async () => {
       try {
-        const questions = await fetchQuestionsForSubject(subjectId, QUESTIONS_PER_SESSION);
+        const questions = await fetchQuestionsForSubject(subjectId, QUESTIONS_PER_SESSION, difficultyTier);
         if (!isMounted) return;
         setSession((prev) => ({ ...prev, questions }));
       } catch {
@@ -73,7 +76,7 @@ export const useQuiz = (subjectId: SubjectId): UseQuizReturn => {
     return () => {
       isMounted = false;
     };
-  }, [subjectId, loadTrigger]);
+  }, [subjectId, difficultyTier, loadTrigger]);
 
   const isLastQuestion = session.currentIndex === session.questions.length - 1;
 

@@ -21,10 +21,10 @@ export const Navbar = ({ pageName = 'Inicio', streak = 0 }: NavbarProps) => {
         >
           <MenuRoundedIcon fontSize="small" />
         </button>
-        <div className="w-9 h-9 bg-indigo-700 rounded-xl flex items-center justify-center text-white font-bold text-lg select-none">
-          S
+<div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg select-none">
+          E
         </div>
-        <span className="text-base font-bold text-gray-900 dark:text-slate-100">Saber Pro</span>
+        <span className="text-base font-bold text-gray-900 dark:text-slate-100">EduSaber</span>
         <span className="font-light text-gray-300 dark:text-slate-700">|</span>
         <span className="text-sm text-gray-500 dark:text-slate-400">{pageName}</span>
       </div>

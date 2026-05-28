@@ -6,6 +6,7 @@ import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlin
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 import type { Subject, SubjectIconKey, SubjectProgress } from '../types';
 import { ProgressBar } from './ProgressBar';
 
@@ -22,6 +23,7 @@ interface SubjectCardProps {
   subject: Subject;
   progress: SubjectProgress;
   onSelect: (subjectId: string) => void;
+  onRehearsal?: (subjectId: string) => void;
   locked?: boolean;
 }
 
@@ -99,7 +101,7 @@ const resolveAccuracyLabel = (accuracyPct: number): { text: string; className: s
   };
 };
 
-export const SubjectCard = ({ subject, progress, onSelect, locked = false }: SubjectCardProps) => {
+export const SubjectCard = ({ subject, progress, onSelect, onRehearsal, locked = false }: SubjectCardProps) => {
   const displayedCompletedQuestions = Math.min(
     progress.completedQuestions,
     progress.totalQuestions,
@@ -196,6 +198,21 @@ export const SubjectCard = ({ subject, progress, onSelect, locked = false }: Sub
           </div>
           <ProgressBar percentage={completionPct} colorClass={subject.progressColor} heightClass="h-2" />
         </div>
+
+        {/* Rehearsal link */}
+        {hasStarted && !locked && onRehearsal && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRehearsal(subject.id);
+            }}
+            className="mt-3 flex items-center gap-1 text-xs font-medium text-gray-400 transition-colors hover:text-indigo-500 dark:text-slate-500 dark:hover:text-indigo-300"
+          >
+            Repasar errores
+            <NavigateNextRoundedIcon sx={{ fontSize: 14 }} />
+          </button>
+        )}
       </div>
 
       {/* Arrow — slides in on hover */}
